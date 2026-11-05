@@ -1,0 +1,54 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# CodeRabbit settings for this repo. It reviews every pull request with a
+# security focus. The scanners below are already on by default; listing them
+# here keeps them on if someone changes the dashboard. Change this file in a
+# pull request, not in the dashboard, so the change is visible.
+language: en-US
+reviews:
+  profile: chill
+  auto_review:
+    enabled: true
+    # Draft pull requests wait until they are marked ready, to save review quota.
+    drafts: false
+    # Never pause reviews on long-running pull requests.
+    auto_pause_after_reviewed_commits: 0
+    # Also review pull requests that target branches other than the default.
+    base_branches:
+      - ".*"
+  path_instructions:
+    - path: "**/*"
+      instructions: |
+        Review for security first. Flag each of these with a concrete fix:
+        - Hardcoded secrets, API keys or tokens, and secrets that reach logs,
+          error messages, URLs or client-side code.
+        - Routes, API handlers, server actions or webhooks that are missing an
+          auth, permission or signature check.
+        - SQL, shell, file path or prompt injection from user, web or model input.
+        - eval, exec or subprocess calls built from untrusted input.
+        - Missing input validation, open CORS, or user data returned to the
+          wrong user.
+        - New or bumped dependencies with known vulnerabilities.
+        Skip style nitpicks unless they hide a real bug.
+  tools:
+    gitleaks:
+      enabled: true
+    trufflehog:
+      enabled: true
+    osvScanner:
+      enabled: true
+    semgrep:
+      enabled: true
+    opengrep:
+      enabled: true
+    trivy:
+      enabled: true
+    checkov:
+      enabled: true
+    zizmor:
+      enabled: true
+    actionlint:
+      enabled: true
+    dotenvLint:
+      enabled: true
+chat:
+  auto_reply: true
